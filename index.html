@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Image Link Challenge</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fdf6e3;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background-color: #268bd2;
+      color: white;
+      padding: 20px;
+    }
+
+    .game-area {
+      padding: 20px;
+    }
+
+    .code-box {
+      background-color: #eee;
+      border: 2px dashed #ccc;
+      padding: 20px;
+      margin: 20px auto;
+      width: 80%;
+      min-height: 100px;
+      font-family: monospace;
+      color: #b58900;
+    }
+
+    .drag-options {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .draggable {
+      background: #fff3cd;
+      border: 1px solid #f0ad4e;
+      padding: 10px 20px;
+      cursor: grab;
+      border-radius: 5px;
+      font-family: monospace;
+    }
+
+    .drop-zone {
+      border: 2px dashed #aaa;
+      height: 40px;
+      width: 80%;
+      margin: 10px auto;
+      padding: 10px;
+      background-color: #f0f0f0;
+    }
+
+    .correct {
+      background-color: #d4edda;
+      border-color: #28a745;
+    }
+
+    .message {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    footer {
+      margin-top: 50px;
+      font-size: 0.9em;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🧠 Fix the HTML - Image Link Challenge</h1>
+  <p>Drag the correct image tag to complete the HTML!</p>
+</header>
+
+<div class="game-area">
+  <div class="code-box">
+    <pre>
+&lt;html&gt;
+  &lt;body&gt;
+    <!-- Drop Here -->
+    <div class="drop-zone" id="dropZone"></div>
+  &lt;/body&gt;
+&lt;/html&gt;
+    </pre>
+  </div>
+
+  <div class="drag-options">
+    <div class="draggable" draggable="true" id="option1">&lt;img href="cat.jpg"&gt;</div>
+    <div class="draggable" draggable="true" id="option2">&lt;img src="cat.jpg" alt="A cat"&gt;</div>
+    <div class="draggable" draggable="true" id="option3">&lt;img link="dog.jpg"&gt;</div>
+  </div>
+
+  <div class="message" id="message"></div>
+</div>
+
+<footer>
+  Created to help kids learn HTML image tags 🎨
+</footer>
+
+<script>
+  const draggables = document.querySelectorAll(".draggable");
+  const dropZone = document.getElementById("dropZone");
+  const message = document.getElementById("message");
+
+  draggables.forEach(item => {
+    item.addEventListener("dragstart", e => {
+      e.dataTransfer.setData("text/plain", e.target.id);
+    });
+  });
+
+  dropZone.addEventListener("dragover", e => {
+    e.preventDefault();
+    dropZone.style.backgroundColor = "#d3d3d3";
+  });
+
+  dropZone.addEventListener("dragleave", () => {
+    dropZone.style.backgroundColor = "#f0f0f0";
+  });
+
+  dropZone.addEventListener("drop", e => {
+    e.preventDefault();
+    const id = e.dataTransfer.getData("text");
+    const dragged = document.getElementById(id);
+
+    if (dragged.innerText === '<img src="cat.jpg" alt="A cat">') {
+      dropZone.innerText = dragged.innerText;
+      dropZone.classList.add("correct");
+      message.innerText = "✅ Well done! That’s the correct image tag.";
+      message.style.color = "green";
+    } else {
+      message.innerText = "❌ Oops! That’s not the right tag. Try again!";
+      message.style.color = "red";
+    }
+  });
+</script>
+
+</body>
+</html>
